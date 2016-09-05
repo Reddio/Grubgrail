@@ -12,7 +12,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+
+public class MainActivity extends AppCompatActivity implements OnConnectionFailedListener{
 
     private ArrayList<String> al;
     private ArrayAdapter<String> arrayAdapter;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter<String>(this, R.layout.item, R.id.helloText, al);
 
 	    // SET THE LISTENERS FOR SWIPING
+
         flingContainer.setAdapter(arrayAdapter);
 	    flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
 		    @Override
