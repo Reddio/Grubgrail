@@ -12,12 +12,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+public class MainActivity extends AppCompatActivity{
 
-public class MainActivity extends AppCompatActivity implements OnConnectionFailedListener{
-
-    private ArrayList<String> al;
+	private ArrayList<String> al;
     private ArrayAdapter<String> arrayAdapter;
     private int i;
 
