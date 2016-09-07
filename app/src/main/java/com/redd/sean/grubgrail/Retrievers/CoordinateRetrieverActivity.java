@@ -1,4 +1,4 @@
-package com.redd.sean.grubgrail;
+package com.redd.sean.grubgrail.retrievers;
 
 import android.content.Intent;
 import android.location.Location;

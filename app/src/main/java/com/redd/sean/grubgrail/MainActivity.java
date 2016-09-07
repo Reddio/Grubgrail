@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
+import com.redd.sean.grubgrail.retrievers.CoordinateRetrieverActivity;
 
 import java.util.ArrayList;
 
@@ -100,7 +100,17 @@ public class MainActivity extends AppCompatActivity {
 			longitude = extras.getDouble("Longitude");
 			latitude = extras.getDouble("Latitude");
 		}
+	}
 
-		Toast.makeText(MainActivity.this, "Location:"+latitude+","+longitude, Toast.LENGTH_SHORT).show();
+	public void getNearby(double x, double y) {
+
+		/*
+		//	Send all relevant information to new class to conduct search
+		//
+		//	Put all relevant information in custom ArrayList object and send back
+		//		to MainActivity for use as cards.
+		*/
+
+
 	}
 }

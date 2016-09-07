@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CoordinateRetrieverActivity"></activity>
+        <activity android:name=".retrievers.CoordinateRetrieverActivity"></activity>
         <meta-data
             android:name="com.redd.sean.grubgrail"
             android:value="AIzaSyDnpvuf4npzz8DO1QTZI3QZU4JcTtJAa2Y" />
