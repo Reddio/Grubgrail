@@ -1,10 +1,6 @@
 package com.redd.sean.grubgrail;
 
-import android.content.Context;
-import android.location.GpsStatus;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -18,24 +14,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity
-		implements LocationListener, GpsStatus.Listener{
+public class MainActivity extends AppCompatActivity {
 
 	private ArrayList<String> al;
     private ArrayAdapter<String> arrayAdapter;
     private int i;
 
-
-	// GPS Data
-	private LocationManager mService;
-	private GpsStatus mStatus;
-
-	// User location data
-	double latitude;
-	double longitude;
-
 	// Data to make the JSON query, in order of input
 	private static String APIkey = "AIzaSyDnpvuf4npzz8DO1QTZI3QZU4JcTtJAa2Y";
+	double longitude, latitude;
 	private static int RADIUS = 10; // miles
 	private static String locationType = "restaurant";
 
@@ -52,7 +39,6 @@ public class MainActivity extends AppCompatActivity
         arrayAdapter = new ArrayAdapter<String>(this, R.layout.item, R.id.helloText, al);
 
 	    // SET THE LISTENERS FOR SWIPING
-
         flingContainer.setAdapter(arrayAdapter);
 	    flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
 		    @Override
@@ -87,7 +73,7 @@ public class MainActivity extends AppCompatActivity
 		    }
 	    });
 
-	    Toast.makeText(MainActivity.this, "Location:"+latitude+","+longitude, Toast.LENGTH_SHORT).show();
+	    getCoordinates();
 
     }
 
@@ -102,77 +88,19 @@ public class MainActivity extends AppCompatActivity
 		flingContainer.getTopCardListener().selectLeft();
 	}
 
-
-//--------------------------------------------------------------------------------//
-/*--------------------------- DATA FROM SEPARATE CLASS ---------------------------*/
-
-
-	LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-	public static void getNearby() {
-
+	public void getCoordinates() {
+		Intent intent = new Intent(this, CoordinateRetrieverActivity.class);
+		startActivityForResult(intent, 1);
 	}
 
-	private final LocationListener locationListener = new LocationListener() {
-		@Override
-		public void onLocationChanged(Location location) {
-			longitude = location.getLongitude();
-			latitude = location.getLatitude();
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == 1){
+			Bundle extras = data.getExtras();
+			longitude = extras.getDouble("Longitude");
+			latitude = extras.getDouble("Latitude");
 		}
 
-		@Override
-		public void onProviderDisabled(String provider) {}
-
-		@Override
-		public void onProviderEnabled(String provider) {}
-
-		@Override
-		public void onStatusChanged(String provider, int status, Bundle extras){}
-	};
-
-	@Override
-	public void onLocationChanged(Location location) {
-		longitude = location.getLongitude();
-		latitude = location.getLatitude();
+		Toast.makeText(MainActivity.this, "Location:"+latitude+","+longitude, Toast.LENGTH_SHORT).show();
 	}
-
-	@Override
-	public void onProviderDisabled(String provider) {}
-
-	@Override
-	public void onProviderEnabled(String provider) {}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras){}
-
-	//lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
-
-	public void onGpsStatusChanged(int event) {
-		mStatus = mService.getGpsStatus(mStatus);
-		switch (event) {
-			case GpsStatus.GPS_EVENT_STARTED:
-				// Do Something with mStatus info
-				break;
-
-			case GpsStatus.GPS_EVENT_STOPPED:
-				// Do Something with mStatus info
-				break;
-
-			case GpsStatus.GPS_EVENT_FIRST_FIX:
-				// Do Something with mStatus info
-				break;
-
-			case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-				// Do Something with mStatus info
-				break;
-		}
-
-	}
-
-
-/*------------------------- DATA FROM SEPARATE CLASS END -------------------------*/
-//--------------------------------------------------------------------------------//
-
-
 }
